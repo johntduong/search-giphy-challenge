@@ -1,14 +1,26 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import TextField from 'material-ui/TextField';
+import {orange500, blue500} from 'material-ui/styles/colors';
+import RaisedButton from 'material-ui/RaisedButton';
+
 import './App.css';
-
-
-
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { query: '', result: '' }
+    this.state = { 
+      query: '', 
+      result: '', 
+      styles: {
+        buttonStyle: { 
+          margin: 12,
+        },
+        underlineStyle: {
+          borderColor: orange500,
+        },
+      }
+    }
 
     this.handleChange = this.handleChange.bind(this);
     this.makeQuery = this.makeQuery.bind(this);
@@ -16,7 +28,6 @@ class App extends Component {
   }
 
   makeQuery(callback) {
-    console.log('HELLO', this.state)
     fetch(this.state.query, {
       method: 'GET'
     })
@@ -48,18 +59,26 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+
         <div>
-          <input type="text" onChange={ this.handleChange } />
+          <TextField
+            hintText="What would you like to search for?" 
+            onChange={ this.handleChange }
+            underlineStyle={ this.state.styles.underlineStyle }
+          />
         </div>
+
         <div>
-          <input
-            type="button"
-            value="Go"
-            onClick={this.handleClick}
+          <RaisedButton 
+            label="GO" 
+            style={ this.state.styles.buttonStyle } 
+            onClick={ this.handleClick } 
           />
         </div>
         <div>
-          <img src={this.state.result} />
+          <img 
+            src={ this.state.result } 
+          />
         </div>
       </div> 
     );
