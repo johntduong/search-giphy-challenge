@@ -1,10 +1,9 @@
-.App {
-  text-align: center;
+body {
   background-color: #2d2d30;
 }
 
-TextField {
-  color: white;
+.App {
+  text-align: center;
 }
 
 .App-logo {
