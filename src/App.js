@@ -8,7 +8,7 @@ import './App.css';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { query: ''}
+    this.state = { query: '', result: '' }
 
     this.handleChange = this.handleChange.bind(this);
     this.makeQuery = this.makeQuery.bind(this);
@@ -27,21 +27,22 @@ class App extends Component {
       return responseData;
     })
     .then((data) => {
-      callback(data);
+      this.setState({
+        result: data.data[0].images.original.url
+      }, () => {
+        console.log('AFTER RESULT', this.state);
+      })
     })
   }
 
   handleChange(e) {
     this.setState({
-      query: 'http://api.giphy.com/v1/gifs/search?q=' + e.target.value + '&api_key=dc6zaTOxFJmzC&limit=1'
-    }, () => console.log(this.state));
+      query: 'http://api.giphy.com/v1/gifs/search?q=' + e.target.value.split(' ').join('+') + '&api_key=dc6zaTOxFJmzC&limit=1'
+    }, () => console.log('STATE', this.state))
   }
 
   handleClick(e) {
-    // call makeQuery with query string
-    // due to async, can't use handleclick to create query string with captured input value then call makeQuery function
-    this.makeQuery(console.log);
-    // may need to create a new component that renders under form with JSX displaying tiles of found images from giphy
+    this.makeQuery();
   }
 
   render() {
@@ -49,11 +50,16 @@ class App extends Component {
       <div className="App">
         <div>
           <input type="text" onChange={ this.handleChange } />
+        </div>
+        <div>
           <input
             type="button"
             value="Go"
             onClick={this.handleClick}
           />
+        </div>
+        <div>
+          <img src={this.state.result} />
         </div>
       </div> 
     );
