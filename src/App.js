@@ -10,6 +10,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = { 
+      input: '',
       query: '', 
       result: '', 
       styles: {
@@ -41,6 +42,10 @@ class App extends Component {
       this.setState({
         result: data.data[0].images.original.url
       }, () => {
+        this.setState({
+          input: '',
+          query: ''
+        })
         console.log('AFTER RESULT', this.state);
       })
     })
@@ -48,6 +53,7 @@ class App extends Component {
 
   handleChange(e) {
     this.setState({
+      input: e.target.value,
       query: 'http://api.giphy.com/v1/gifs/search?q=' + e.target.value.split(' ').join('+') + '&api_key=dc6zaTOxFJmzC&limit=1'
     }, () => console.log('STATE', this.state))
   }
@@ -63,6 +69,7 @@ class App extends Component {
         <div>
           <TextField
             hintText="What would you like to search for?" 
+            value={ this.state.input }
             onChange={ this.handleChange }
             underlineStyle={ this.state.styles.underlineStyle }
           />
